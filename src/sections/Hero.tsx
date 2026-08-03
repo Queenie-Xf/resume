@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Download } from 'lucide-react'
 import { contact, type Lang, type SiteContent } from '../content'
 import { useTypewriter } from '../hooks/useTypewriter'
 import CountUp from '../components/CountUp'
@@ -29,9 +29,9 @@ function DataLine() {
       />
       {[
         [120, 165], [360, 130], [600, 96], [840, 70], [1080, 52], [1320, 30],
-      ].map(([x, y], i) => (
+      ].map(([x, y], index) => (
         <motion.circle
-          key={i}
+          key={index}
           cx={x}
           cy={y}
           r="3"
@@ -39,7 +39,7 @@ function DataLine() {
           fillOpacity="0.5"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 1 + i * 0.25 }}
+          transition={{ delay: 1 + index * 0.25 }}
         />
       ))}
     </svg>
@@ -48,13 +48,14 @@ function DataLine() {
 
 function DataBars() {
   const bars = [0.5, 0.8, 0.35, 0.9, 0.6, 1, 0.45, 0.75, 0.55, 0.95, 0.4, 0.7]
+
   return (
     <div className="pointer-events-none absolute right-10 top-28 hidden items-end gap-1.5 lg:flex" aria-hidden>
-      {bars.map((h, i) => (
+      {bars.map((height, index) => (
         <div
-          key={i}
+          key={index}
           className="data-bar w-1.5 bg-ink/10"
-          style={{ height: `${h * 90}px`, animationDelay: `${i * 0.18}s` }}
+          style={{ height: `${height * 90}px`, animationDelay: `${index * 0.18}s` }}
         />
       ))}
     </div>
@@ -67,20 +68,21 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
       ? `SELECT * FROM candidate WHERE name = '方向';`
       : `SELECT * FROM candidate WHERE name = 'Xiang Fang';`
   const typed = useTypewriter(query)
+  const resumePath = `${import.meta.env.BASE_URL}${lang === 'zh' ? 'resume-zh.pdf' : 'resume-en.pdf'}`
 
   const rise = {
     hidden: { opacity: 0, y: 32 },
-    show: (i: number) => ({
+    show: (index: number) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.75, delay: 0.08 + 0.1 * i, ease },
+      transition: { duration: 0.75, delay: 0.08 + 0.1 * index, ease },
     }),
   }
 
   const links = [
     { label: contact.email, href: `mailto:${contact.email}` },
     { label: contact.github, href: contact.githubUrl },
-    { label: contact.phone, href: `tel:${contact.phone}` },
+    { label: '+86 150 2111 2769', href: 'tel:+8615021112769' },
   ]
 
   return (
@@ -138,20 +140,29 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
           variants={rise}
           initial="hidden"
           animate="show"
-          className="mt-5 grid grid-cols-1 gap-1 sm:mt-8 sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-2 md:mt-10 md:gap-x-10"
+          className="mt-5 grid grid-cols-1 gap-1 sm:mt-8 sm:flex sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-2 md:mt-10 md:gap-x-10"
         >
-          {links.map((l) => (
+          {links.map((link) => (
             <a
-              key={l.label}
-              href={l.href}
-              target={l.href.startsWith('http') ? '_blank' : undefined}
+              key={link.label}
+              href={link.href}
+              target={link.href.startsWith('http') ? '_blank' : undefined}
               rel="noreferrer"
               className="group inline-flex min-h-11 max-w-full items-center gap-1.5 py-2 text-sm font-medium text-ink"
             >
-              <span className="link-underline truncate">{l.label}</span>
+              <span className="link-underline truncate">{link.label}</span>
               <ArrowUpRight className="h-4 w-4 shrink-0 text-ink/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent1" />
             </a>
           ))}
+
+          <a
+            href={resumePath}
+            download={lang === 'zh' ? '方向_数据分析简历.pdf' : 'Xiang_Fang_Data_Analyst_Resume.pdf'}
+            className="group mt-2 inline-flex min-h-12 w-full items-center justify-between border border-ink/20 bg-white/50 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-white/80 sm:mt-0 sm:w-auto sm:min-w-44"
+          >
+            <span>{lang === 'zh' ? '下载中文简历' : 'Download Resume'}</span>
+            <Download className="h-4 w-4 text-ink/45 transition-transform group-hover:translate-y-0.5 group-hover:text-accent1" />
+          </a>
         </motion.div>
 
         <motion.div
@@ -161,13 +172,13 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
           animate="show"
           className="mt-10 grid grid-cols-3 gap-2 border-t border-line pt-5 sm:mt-16 sm:gap-6 sm:pt-8 md:mt-24"
         >
-          {t.hero.stats.map((s) => (
-            <div key={s.label} className="min-w-0">
+          {t.hero.stats.map((stat) => (
+            <div key={stat.label} className="min-w-0">
               <div className="font-display text-2xl font-bold tabular-nums text-ink sm:text-3xl md:text-5xl">
-                <CountUp text={s.value} />
+                <CountUp text={stat.value} />
               </div>
               <div className="mt-1 break-words text-[9px] font-medium uppercase leading-tight tracking-wide text-ink/45 sm:mt-2 sm:text-xs md:text-sm md:normal-case md:tracking-normal">
-                {s.label}
+                {stat.label}
               </div>
             </div>
           ))}
