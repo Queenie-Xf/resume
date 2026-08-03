@@ -26,7 +26,6 @@ export default function Experience({ t }: { t: SiteContent }) {
 
           {t.experience.items.map((experience, index) => {
             const isOpen = open.includes(index)
-            const metricColumns = experience.metrics.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
             const isKoal =
               index === 2 ||
               experience.company.includes('格尔') ||
@@ -54,7 +53,7 @@ export default function Experience({ t }: { t: SiteContent }) {
                   onClick={() => toggle(index)}
                   className="group grid min-h-24 w-full grid-cols-[1fr_2.75rem] gap-3 py-6 text-left md:grid-cols-[3rem_10rem_1fr_3rem] md:items-center md:py-9"
                 >
-                  <span className="hidden text-sm text-accent1/75 md:block">
+                  <span className="hidden text-sm font-extrabold text-accent1/90 md:block">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <span className="hidden text-xs text-ink/30 md:block">{experience.period}</span>
@@ -86,14 +85,17 @@ export default function Experience({ t }: { t: SiteContent }) {
                     >
                       <div className="pb-10 md:pl-[15rem]">
                         <div
-                          className={`mb-6 grid grid-cols-1 gap-x-8 gap-y-4 border-y border-dashed border-ink/15 py-5 ${metricColumns}`}
+                          className="mb-6 grid gap-x-8 gap-y-4 border-y border-dashed border-ink/15 py-5"
+                          style={{
+                            gridTemplateColumns: `repeat(${experience.metrics.length}, minmax(0, 1fr))`,
+                          }}
                         >
                           {experience.metrics.map((metric) => (
                             <div key={metric.label} className="min-w-0">
-                              <div className="font-display text-2xl font-bold tabular-nums text-accent1/90 md:text-3xl">
+                              <div className="font-display text-2xl font-extrabold tracking-tight tabular-nums text-accent1 md:text-3xl">
                                 {metric.value}
                               </div>
-                              <div className="mt-1 text-xs font-medium text-ink/42">
+                              <div className="mt-1 text-xs font-semibold text-ink/44">
                                 {metric.label}
                               </div>
                             </div>
