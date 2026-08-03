@@ -15,28 +15,30 @@ export default function Home() {
   const t = content[lang]
 
   return (
-    <div className="dot-grid relative min-h-screen bg-paper font-sans text-ink antialiased">
-      <div className="fixed inset-0 z-0">
-        <ParticleField density={90} />
+    <div className="dot-grid relative min-h-screen overflow-x-hidden bg-paper font-sans text-ink antialiased">
+      <div className="fixed inset-0 z-0 hidden sm:block">
+        <ParticleField density={60} />
       </div>
       <div className="relative z-10">
-      <Navbar lang={lang} setLang={setLang} t={t} />
-      <main>
-        <Hero lang={lang} t={t} />
-        <Marquee t={t} />
-        <Skills t={t} />
-        <Experience t={t} />
-        <Projects t={t} />
-        <Education t={t} />
-        <Contact t={t} />
-      </main>
-      <footer className="border-t border-line py-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 text-xs text-ink/35 md:flex-row md:px-10">
-          <span className="font-display font-semibold">{lang === 'zh' ? '方向' : 'Xiang Fang'}</span>
-          <span>{t.footer}</span>
-          <span className="font-mono text-[11px] text-ink/30">$ status --open-to-work <span className="text-accent1">→ true</span></span>
-        </div>
-      </footer>
+        <Navbar lang={lang} setLang={setLang} t={t} />
+        <main>
+          <Hero lang={lang} t={t} />
+          <Marquee t={t} />
+          <Skills t={t} />
+          <Experience t={t} />
+          <Projects t={t} />
+          <Education t={t} />
+          <Contact t={t} />
+        </main>
+        <footer className="border-t border-line py-6 md:py-8">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 text-center text-xs leading-relaxed text-ink/35 md:flex-row md:px-10 md:text-left">
+            <span className="font-display font-semibold">{lang === 'zh' ? '方向' : 'Xiang Fang'}</span>
+            <span>{t.footer}</span>
+            <span className="font-mono text-[11px] text-ink/30">
+              $ status --open-to-work <span className="text-accent1">→ true</span>
+            </span>
+          </div>
+        </footer>
       </div>
     </div>
   )
