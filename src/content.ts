@@ -313,10 +313,10 @@ export const content: Record<Lang, SiteContent> = {
           ],
           tags: ['Python', 'Spark', 'MongoDB', 'Docker', 'Ollama', 'LLM'],
           metrics: [
-            { value: '12,000+', label: '异构数据治理' },
-            { value: '+50%', label: '查询准备效率' },
-            { value: '+10%', label: '复杂检索成功率' },
-            { value: '-30%', label: '平均响应时间' },
+            { value: '12,000+', label: 'Heterogeneous Records' },
+            { value: '+50%', label: 'Data Preparation Efficiency' },
+            { value: '+10%', label: 'Complex Query Success Rate' },
+            { value: '-30%', label: 'Average Response Time' },
           ],
         },
         {
