@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Times New Roman"', 'Times', '"Songti SC"', 'SimSun', 'serif'],
-        sans: ['"Times New Roman"', 'Times', '"Songti SC"', 'SimSun', 'serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
+        display: ['"Times New Roman"', 'Times', '"Songti SC"', 'STSong', '"Noto Serif CJK SC"', '"Source Han Serif SC"', 'SimSun', 'serif'],
+        sans: ['"Times New Roman"', 'Times', '"Songti SC"', 'STSong', '"Noto Serif CJK SC"', '"Source Han Serif SC"', 'SimSun', 'serif'],
+        mono: ['"Times New Roman"', 'Times', '"Songti SC"', 'STSong', '"Noto Serif CJK SC"', '"Source Han Serif SC"', 'SimSun', 'serif'],
       },
       colors: {
         ink: '#0B0B0C',
