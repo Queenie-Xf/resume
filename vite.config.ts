@@ -2,10 +2,9 @@ import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
-// https://vite.dev/config/
+// Use /resume/ for GitHub Pages and / for Cloudflare Pages.
 export default defineConfig({
-  // GitHub Pages project site: https://queenie-xf.github.io/resume/
-  base: '/resume/',
+  base: process.env.SITE_BASE_PATH || '/',
   plugins: [react()],
   server: {
     port: 3000,
