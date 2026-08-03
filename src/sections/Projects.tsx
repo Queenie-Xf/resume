@@ -1,51 +1,67 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
-import type { SiteContent } from '../content'
+import { contact, type SiteContent } from '../content'
 import SectionHeading from './SectionHeading'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
+type ProjectWithLink = SiteContent['projects']['items'][number] & {
+  githubUrl?: string
+}
+
 export default function Projects({ t }: { t: SiteContent }) {
   const [open, setOpen] = useState<number>(0)
+  const isChinese = t.projects.title === '项目作品'
 
   return (
-    <section id="projects" className="py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+    <section id="projects" className="scroll-mt-20 py-16 sm:py-20 md:py-36">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 md:px-10">
         <SectionHeading index="03" title={t.projects.title} subtitle={t.projects.subtitle} />
 
         <div className="border-t border-line">
-          {t.projects.items.map((proj, i) => {
-            const isOpen = open === i
+          {t.projects.items.map((rawProject, index) => {
+            const project = rawProject as ProjectWithLink
+            const isOpen = open === index
+
             return (
-              <motion.div
-                key={proj.name}
-                initial={{ opacity: 0, y: 24 }}
+              <motion.article
+                key={project.name}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.55, delay: i * 0.08, ease }}
+                transition={{ duration: 0.5, delay: index * 0.06, ease }}
                 className="border-b border-line"
               >
                 <button
-                  onClick={() => setOpen(isOpen ? -1 : i)}
-                  className="group grid w-full grid-cols-[auto_1fr_auto] items-baseline gap-5 py-8 text-left md:gap-10 md:py-12"
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpen(isOpen ? -1 : index)}
+                  className="group grid w-full grid-cols-[1fr_auto] gap-x-4 gap-y-3 py-7 text-left sm:py-8 md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:py-12"
                 >
-                  <span className="font-mono text-sm font-semibold text-accent1 md:text-base">
-                    {String(i + 1).padStart(2, '0')}
+                  <span className="col-span-2 text-sm font-semibold tracking-[0.12em] text-accent1 md:col-span-1 md:col-start-1 md:row-start-1 md:text-base">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span>
-                    <span className="block font-display text-3xl font-bold tracking-tight text-ink transition-colors duration-300 group-hover:text-accent1 md:text-5xl">
-                      {proj.name}
+
+                  <span className="col-start-1 row-start-2 min-w-0 md:col-start-2 md:row-start-1">
+                    <span className="block break-words font-display text-3xl font-bold leading-[1.05] tracking-tight text-ink transition-colors duration-300 group-hover:text-accent1 sm:text-4xl md:text-5xl">
+                      {project.name}
                     </span>
-                    <span className="mt-2 block text-sm text-ink/45">
-                      {proj.org} · {proj.period}
+                    <span className="mt-2 block break-words text-sm leading-relaxed text-ink/50">
+                      {project.org}
+                      <span className="mx-1.5 text-ink/20">·</span>
+                      {project.period}
                     </span>
                   </span>
-                  <ArrowUpRight
-                    className={`h-6 w-6 shrink-0 self-center text-ink/25 transition-all duration-300 group-hover:text-accent1 md:h-8 md:w-8 ${
-                      isOpen ? 'rotate-90 text-accent1' : ''
-                    }`}
-                  />
+
+                  <span className="col-start-2 row-start-2 inline-flex h-11 w-11 items-center justify-center self-start md:col-start-3 md:row-start-1 md:self-center">
+                    <ArrowUpRight
+                      className={`h-6 w-6 shrink-0 text-ink/25 transition-all duration-300 group-hover:text-accent1 md:h-8 md:w-8 ${
+                        isOpen ? 'rotate-90 text-accent1' : ''
+                      }`}
+                      aria-hidden
+                    />
+                  </span>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -54,50 +70,82 @@ export default function Projects({ t }: { t: SiteContent }) {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease }}
+                      transition={{ duration: 0.42, ease }}
                       className="overflow-hidden"
                     >
-                      <div className="grid gap-10 pb-12 md:grid-cols-[auto_1fr] md:gap-10">
+                      <div className="pb-9 md:grid md:grid-cols-[auto_1fr] md:gap-10 md:pb-12">
                         <span className="hidden w-[calc(0.5rem+2.5rem)] md:block" />
                         <div className="max-w-4xl">
-                          {/* 量化指标条 */}
-                          <div className="mb-10 grid grid-cols-2 gap-4 border-y border-line py-5 md:grid-cols-4">
-                            {proj.metrics.map((m) => (
-                              <div key={m.label}>
-                                <div className="font-mono text-xl font-bold tabular-nums text-accent1 md:text-2xl">
-                                  {m.value}
+                          <div className="mb-7 grid grid-cols-2 gap-x-4 gap-y-5 border-y border-line py-5 sm:mb-9 md:grid-cols-4">
+                            {project.metrics.map((metric) => (
+                              <div key={metric.label} className="min-w-0">
+                                <div className="font-display text-xl font-bold tabular-nums text-accent1 sm:text-2xl">
+                                  {metric.value}
                                 </div>
-                                <div className="mt-1 text-xs text-ink/45">{m.label}</div>
+                                <div className="mt-1 break-words text-xs leading-snug text-ink/50">
+                                  {metric.label}
+                                </div>
                               </div>
                             ))}
                           </div>
-                          <div className="grid gap-x-12 gap-y-8 md:grid-cols-2">
-                            {proj.highlights.map((h, hi) => (
-                              <div key={hi}>
+
+                          <div className="grid gap-x-12 gap-y-7 md:grid-cols-2 md:gap-y-8">
+                            {project.highlights.map((highlight, highlightIndex) => (
+                              <div key={highlightIndex}>
                                 <div className="flex items-center gap-3">
-                                  <span className="h-px w-6 bg-ink/30" />
-                                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/45">
-                                    {h.label}
+                                  <span className="h-px w-5 shrink-0 bg-ink/30 sm:w-6" />
+                                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink/50 sm:tracking-[0.2em]">
+                                    {highlight.label}
                                   </span>
                                 </div>
-                                <p className="mt-3 text-sm leading-relaxed text-ink/65 md:text-base">
-                                  {h.text}
+                                <p className="mt-3 text-[15px] leading-7 text-ink/70 md:text-base">
+                                  {highlight.text}
                                 </p>
                               </div>
                             ))}
                           </div>
-                          <div className="mt-10 font-mono text-xs font-medium uppercase tracking-widest text-ink/35">
-                            {proj.tags.join('  ·  ')}
+
+                          <div className="mt-8 flex flex-wrap gap-2 sm:mt-10">
+                            {project.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="inline-flex min-h-8 items-center rounded-full border border-line bg-white/50 px-3 py-1 text-xs font-medium leading-none text-ink/60"
+                              >
+                                {tag}
+                              </span>
+                            ))}
                           </div>
+
+                          {project.githubUrl && (
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="group mt-7 flex min-h-12 w-full items-center justify-between border border-ink/20 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-white/70 sm:w-fit sm:min-w-52"
+                            >
+                              <span>{isChinese ? '查看项目代码' : 'View Project Code'}</span>
+                              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </a>
+                          )}
                         </div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </motion.article>
             )
           })}
         </div>
+
+        <a
+          href={contact.githubUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="group mt-8 flex min-h-12 w-full items-center justify-between border border-line bg-white/40 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-white/70 sm:ml-auto sm:w-fit sm:min-w-56"
+        >
+          <span>{isChinese ? '查看 GitHub 主页' : 'View GitHub Profile'}</span>
+          <ArrowUpRight className="h-4 w-4 text-ink/40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent1" />
+        </a>
       </div>
     </section>
   )
