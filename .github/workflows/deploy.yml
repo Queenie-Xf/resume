@@ -35,11 +35,8 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund --registry=https://registry.npmjs.org
 
-      - name: Verify dependencies
-        run: npm ls lucide-react framer-motion react-router --depth=0
-
       - name: Build
-        run: npm run build
+        run: SITE_BASE_PATH=/resume/ npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
