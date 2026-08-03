@@ -26,6 +26,10 @@ export default function Experience({ t }: { t: SiteContent }) {
 
           {t.experience.items.map((experience, index) => {
             const isOpen = open.includes(index)
+            const metricGridClass =
+              experience.metrics.length === 2
+                ? 'grid-cols-1 md:grid-cols-2'
+                : 'grid-cols-1 md:grid-cols-3'
             const isKoal =
               index === 2 ||
               experience.company.includes('格尔') ||
@@ -85,10 +89,7 @@ export default function Experience({ t }: { t: SiteContent }) {
                     >
                       <div className="pb-10 md:pl-[15rem]">
                         <div
-                          className="mb-6 grid gap-x-8 gap-y-4 border-y border-dashed border-ink/15 py-5"
-                          style={{
-                            gridTemplateColumns: `repeat(${experience.metrics.length}, minmax(0, 1fr))`,
-                          }}
+                          className={`mb-6 grid gap-x-8 gap-y-4 border-y border-dashed border-ink/15 py-5 ${metricGridClass}`}
                         >
                           {experience.metrics.map((metric) => (
                             <div key={metric.label} className="min-w-0">
