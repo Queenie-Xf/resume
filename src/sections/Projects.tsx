@@ -109,7 +109,7 @@ export default function Projects({ t }: { t: SiteContent }) {
                             {project.tags.map((tag) => (
                               <span
                                 key={tag}
-                                className="inline-flex min-h-8 items-center rounded-full border border-line bg-white/50 px-3 py-1 text-xs font-medium leading-none text-ink/60"
+                                className="inline-flex min-h-8 items-center rounded-full border border-line/80 bg-white/30 px-3 py-1 text-xs font-medium leading-none text-ink/55"
                               >
                                 {tag}
                               </span>
@@ -121,10 +121,12 @@ export default function Projects({ t }: { t: SiteContent }) {
                               href={project.githubUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="group mt-7 flex min-h-12 w-full items-center justify-between border border-ink/20 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-white/70 sm:w-fit sm:min-w-52"
+                              className="group mt-6 inline-flex min-h-11 items-center gap-1.5 py-2 text-sm font-medium text-ink/45 transition-colors hover:text-accent1"
                             >
-                              <span>{isChinese ? '查看项目代码' : 'View Project Code'}</span>
-                              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                              <span className="link-underline">
+                                {isChinese ? '查看项目代码' : 'View Project Code'}
+                              </span>
+                              <ArrowUpRight className="h-4 w-4 opacity-50 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
                             </a>
                           )}
                         </div>
@@ -137,15 +139,19 @@ export default function Projects({ t }: { t: SiteContent }) {
           })}
         </div>
 
-        <a
-          href={contact.githubUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="group mt-8 flex min-h-12 w-full items-center justify-between border border-line bg-white/40 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-white/70 sm:ml-auto sm:w-fit sm:min-w-56"
-        >
-          <span>{isChinese ? '查看 GitHub 主页' : 'View GitHub Profile'}</span>
-          <ArrowUpRight className="h-4 w-4 text-ink/40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent1" />
-        </a>
+        <div className="mt-6 flex justify-end sm:mt-8">
+          <a
+            href={contact.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex min-h-11 items-center gap-1.5 py-2 text-sm font-medium text-ink/40 transition-colors hover:text-accent1"
+          >
+            <span className="link-underline">
+              {isChinese ? '查看 GitHub 主页' : 'View GitHub Profile'}
+            </span>
+            <ArrowUpRight className="h-4 w-4 opacity-50 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
+          </a>
+        </div>
       </div>
     </section>
   )
