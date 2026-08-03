@@ -2,66 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -69,20 +28,14 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
     background-color: #FAFAF8;
     color: #0B0B0C;
     -webkit-font-smoothing: antialiased;
   }
+
   ::selection {
     background: #3550F2;
     color: #fff;
@@ -93,6 +46,7 @@
   .link-underline {
     position: relative;
   }
+
   .link-underline::after {
     content: '';
     position: absolute;
@@ -105,6 +59,7 @@
     transform-origin: right;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
+
   .link-underline:hover::after {
     transform: scaleX(1);
     transform-origin: left;
@@ -115,23 +70,29 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
 @keyframes blink-cursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
 @keyframes data-bar {
   0%, 100% { transform: scaleY(0.25); }
   50% { transform: scaleY(1); }
 }
+
 .animate-marquee {
-  animation: marquee 32s linear infinite;
+  animation: marquee 40s linear infinite;
 }
+
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
 .cursor-blink {
   animation: blink-cursor 1s step-end infinite;
 }
+
 .data-bar {
   transform-origin: bottom;
   animation: data-bar 2.6s ease-in-out infinite;
@@ -143,14 +104,17 @@
   90% { opacity: 1; }
   100% { left: calc(100% - 48px); opacity: 0; }
 }
+
 .dot-grid {
-  background-image: radial-gradient(rgba(11, 11, 12, 0.055) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(11,11,12,0.055) 1px, transparent 1px);
   background-size: 26px 26px;
 }
+
 .scan-line {
   position: relative;
   overflow: hidden;
 }
+
 .scan-line::after {
   content: '';
   position: absolute;
@@ -161,9 +125,11 @@
   background: linear-gradient(to right, transparent, #3550F2, transparent);
   animation: scan-x 4.5s ease-in-out infinite;
 }
+
 .skill-row {
   position: relative;
 }
+
 .skill-row::before {
   content: '';
   position: absolute;
@@ -176,6 +142,7 @@
   transform-origin: left;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 .skill-row:hover::before {
   transform: scaleX(1);
 }
