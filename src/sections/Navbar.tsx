@@ -48,14 +48,12 @@ export default function Navbar({ lang, setLang, t }: Props) {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed left-0 right-0 top-0 z-50 border-b backdrop-blur-xl transition-all duration-500 ${
-        scrolled
-          ? 'border-line/35 bg-paper/62 shadow-[0_1px_12px_rgba(11,11,12,0.025)]'
-          : 'border-transparent bg-paper/24'
+      className={`fixed left-0 right-0 top-0 z-50 backdrop-blur-xl transition-all duration-500 ${
+        scrolled ? 'bg-paper/62' : 'bg-paper/24'
       }`}
     >
       <motion.div
-        className="absolute left-0 right-0 top-0 h-px origin-left bg-accent1/65"
+        className="absolute left-0 right-0 top-0 h-px origin-left bg-accent1/45"
         style={{ scaleX: progress }}
       />
 
@@ -158,7 +156,7 @@ export default function Navbar({ lang, setLang, t }: Props) {
                     initial={{ opacity: 0, x: -18 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 * index + 0.08, duration: 0.32 }}
-                    className="group flex min-h-16 items-baseline gap-4 border-b border-line/35 py-4"
+                    className="group flex min-h-16 items-baseline gap-4 border-b border-dashed border-ink/10 py-4"
                   >
                     <span className="text-xs text-accent1/75">{String(index + 1).padStart(2, '0')}</span>
                     <span className="font-display text-2xl font-bold tracking-tight text-ink/88 transition-colors group-hover:text-accent1 sm:text-3xl">
