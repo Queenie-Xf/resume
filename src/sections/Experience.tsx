@@ -30,6 +30,13 @@ export default function Experience({ t }: { t: SiteContent }) {
           {t.experience.items.map((experience, index) => {
             const isOpen = open.includes(index)
             const metricColumns = experience.metrics.length >= 3 ? 'grid-cols-3' : 'grid-cols-2'
+            const isGeer = experience.company.includes('格尔') || experience.company.toLowerCase().includes('geer')
+            const collaborationTag = experience.company.includes('格尔')
+              ? '跨部门合作'
+              : 'Cross-functional Collaboration'
+            const displayTags = isGeer && !experience.tags.includes(collaborationTag)
+              ? [...experience.tags, collaborationTag]
+              : experience.tags
 
             return (
               <motion.article
@@ -118,7 +125,7 @@ export default function Experience({ t }: { t: SiteContent }) {
                         </ul>
 
                         <div className="mt-6 flex flex-wrap gap-2">
-                          {experience.tags.map((tag) => (
+                          {displayTags.map((tag) => (
                             <span
                               key={tag}
                               className="inline-flex min-h-8 items-center rounded-full border border-line bg-white/50 px-3 py-1 text-xs font-medium leading-none text-ink/60"
