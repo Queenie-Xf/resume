@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Download } from 'lucide-react'
+import { ArrowUpRight, Check, Copy, Download } from 'lucide-react'
 import { contact, type Lang, type SiteContent } from '../content'
 import { useTypewriter } from '../hooks/useTypewriter'
 import CountUp from '../components/CountUp'
 
 const ease = [0.22, 1, 0.36, 1] as const
+const wechatId = 'Queenie_Softdrink'
 
 function DataLine() {
   return (
@@ -63,6 +65,7 @@ function DataBars() {
 }
 
 export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
+  const [wechatCopied, setWechatCopied] = useState(false)
   const query =
     lang === 'zh'
       ? `SELECT * FROM candidate WHERE name = '方向';`
@@ -84,6 +87,16 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
     { label: contact.github, href: contact.githubUrl },
     { label: '+86 150 2111 2769', href: 'tel:+8615021112769' },
   ]
+
+  const copyWechat = async () => {
+    try {
+      await navigator.clipboard.writeText(wechatId)
+      setWechatCopied(true)
+      window.setTimeout(() => setWechatCopied(false), 1800)
+    } catch {
+      setWechatCopied(false)
+    }
+  }
 
   return (
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden">
@@ -121,13 +134,13 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
         </motion.p>
 
         <motion.div custom={3} variants={rise} initial="hidden" animate="show" className="mt-5 min-w-0 sm:mt-8">
-          <div className="flex w-full max-w-xl min-w-0 items-center overflow-hidden border border-line bg-white/60 px-3 py-2.5 backdrop-blur-sm sm:inline-flex sm:w-auto sm:gap-3 sm:px-4">
+          <div className="flex w-full max-w-xl min-w-0 items-center overflow-hidden border border-line bg-white/40 px-3 py-2.5 backdrop-blur-sm sm:inline-flex sm:w-auto sm:gap-3 sm:px-4">
             <span className="hidden gap-1.5 sm:flex">
               <span className="h-2 w-2 rounded-full bg-ink/15" />
               <span className="h-2 w-2 rounded-full bg-ink/15" />
               <span className="h-2 w-2 rounded-full bg-accent1/60" />
             </span>
-            <code className="block min-w-0 truncate whitespace-nowrap font-mono text-[11px] text-ink/70 sm:text-sm">
+            <code className="block min-w-0 truncate whitespace-nowrap font-mono text-[11px] text-ink/65 sm:text-sm">
               <span className="mr-2 select-none text-accent1">›</span>
               {typed}
               <span className="cursor-blink ml-0.5 inline-block h-[1em] w-[6px] translate-y-[2px] bg-accent1/70" />
@@ -140,7 +153,7 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
           variants={rise}
           initial="hidden"
           animate="show"
-          className="mt-5 grid grid-cols-1 gap-1 sm:mt-8 sm:flex sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-2 md:mt-10 md:gap-x-10"
+          className="mt-5 grid grid-cols-1 gap-0 sm:mt-8 sm:flex sm:flex-wrap sm:items-center sm:gap-x-7 sm:gap-y-1 md:mt-10 md:gap-x-9"
         >
           {links.map((link) => (
             <a
@@ -148,20 +161,36 @@ export default function Hero({ lang, t }: { lang: Lang; t: SiteContent }) {
               href={link.href}
               target={link.href.startsWith('http') ? '_blank' : undefined}
               rel="noreferrer"
-              className="group inline-flex min-h-11 max-w-full items-center gap-1.5 py-2 text-sm font-medium text-ink"
+              className="group inline-flex min-h-11 max-w-full items-center gap-1.5 py-2 text-sm font-medium text-ink/70 transition-colors hover:text-ink"
             >
               <span className="link-underline truncate">{link.label}</span>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-ink/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent1" />
+              <ArrowUpRight className="h-4 w-4 shrink-0 text-ink/20 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent1" />
             </a>
           ))}
+
+          <button
+            type="button"
+            onClick={copyWechat}
+            className="group inline-flex min-h-11 max-w-full items-center gap-1.5 py-2 text-left text-sm font-medium text-ink/70 transition-colors hover:text-ink"
+            aria-label={lang === 'zh' ? `复制微信号 ${wechatId}` : `Copy WeChat ID ${wechatId}`}
+          >
+            <span className="link-underline truncate">
+              {lang === 'zh' ? '微信' : 'WeChat'} · {wechatId}
+            </span>
+            {wechatCopied ? (
+              <Check className="h-4 w-4 shrink-0 text-accent1" />
+            ) : (
+              <Copy className="h-3.5 w-3.5 shrink-0 text-ink/20 transition-colors group-hover:text-accent1" />
+            )}
+          </button>
 
           <a
             href={resumePath}
             download={lang === 'zh' ? '方向_数据分析简历.pdf' : 'Xiang_Fang_Data_Analyst_Resume.pdf'}
-            className="group mt-2 inline-flex min-h-12 w-full items-center justify-between border border-ink/20 bg-white/50 px-4 text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:bg-white/80 sm:mt-0 sm:w-auto sm:min-w-44"
+            className="group inline-flex min-h-11 max-w-full items-center gap-1.5 py-2 text-sm font-semibold text-accent1/75 transition-colors hover:text-accent1"
           >
-            <span>{lang === 'zh' ? '下载中文简历' : 'Download Resume'}</span>
-            <Download className="h-4 w-4 text-ink/45 transition-transform group-hover:translate-y-0.5 group-hover:text-accent1" />
+            <span className="link-underline">{lang === 'zh' ? '下载中文简历' : 'Download Resume'}</span>
+            <Download className="h-4 w-4 shrink-0 opacity-60 transition-transform group-hover:translate-y-0.5 group-hover:opacity-100" />
           </a>
         </motion.div>
 
